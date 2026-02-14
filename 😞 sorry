@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Man Jao Na 🥺</title>
+
+<!-- Romantic Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at center,#14001f,#000814);
+  color:white;
+  text-align:center;
+}
+
+/* Romantic Glowing Text */
+h1{
+  font-family:'Great Vibes', cursive;
+  font-size:48px;
+  color:#ff99cc;
+  text-shadow:
+      0 0 10px #ff4d8d,
+      0 0 20px #ff4d8d,
+      0 0 40px #ff1a75;
+  animation:glowPulse 2s infinite alternate;
+  transition:.5s;
+  padding:0 20px;
+}
+
+@keyframes glowPulse{
+  from{
+    text-shadow:
+      0 0 10px #ff4d8d,
+      0 0 20px #ff4d8d,
+      0 0 40px #ff1a75;
+  }
+  to{
+    text-shadow:
+      0 0 20px #ff80bf,
+      0 0 40px #ff4da6,
+      0 0 60px #ff1a75;
+  }
+}
+
+.scene{
+  width:100%;
+  height:350px;
+  position:relative;
+}
+
+.emoji{
+  font-size:90px;
+  position:absolute;
+  top:140px;
+  transition:1.5s ease;
+}
+
+.girl{ left:5%; }
+.boy{ right:5%; }
+
+.mergeGirl{ left:calc(50% - 70px) !important; }
+.mergeBoy{ right:calc(50% - 70px) !important; }
+
+.kiss{
+  position:absolute;
+  font-size:40px;
+  pointer-events:none;
+}
+
+.trail{
+  position:absolute;
+  font-size:16px;
+  pointer-events:none;
+  opacity:0.8;
+}
+
+.heart{
+  position:absolute;
+  font-size:22px;
+  animation:floatUp 4s linear infinite;
+}
+
+@keyframes floatUp{
+  from{ transform:translateY(0); opacity:1;}
+  to{ transform:translateY(-350px); opacity:0;}
+}
+
+#finalText{
+  font-family:'Great Vibes', cursive;
+  position:absolute;
+  font-size:60px;
+  opacity:0;
+  color:#ff99cc;
+  text-shadow:
+      0 0 20px #ff4d8d,
+      0 0 40px #ff4d8d,
+      0 0 70px #ff1a75;
+  transition:2s;
+}
+
+.showLove{ opacity:1; }
+
+.buttons{
+  margin-top:20px;
+}
+
+button{
+  padding:12px 30px;
+  margin:10px;
+  border:none;
+  border-radius:30px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.yesBtn{ background:#ff4d8d; color:white; }
+.noBtn{ background:white; color:#111; }
+
+</style>
+</head>
+<body>
+
+<h1 id="text">Abhi bhi mujhse gussa ho kya? 🥺</h1>
+
+<div class="scene" id="scene">
+  <div class="emoji girl" id="girl">👧</div>
+  <div class="emoji boy" id="boy">👦</div>
+</div>
+
+<div id="finalText">I Love You Jaan 💖</div>
+
+<div class="buttons">
+  <button class="yesBtn" onclick="yesClicked()">Haan 😒</button>
+  <button class="noBtn" onclick="noClicked()">Nahi 😌</button>
+</div>
+
+<script>
+
+let stage=1;
+const scene=document.getElementById("scene");
+const boy=document.getElementById("boy");
+const girl=document.getElementById("girl");
+const text=document.getElementById("text");
+const finalText=document.getElementById("finalText");
+
+function yesClicked(){
+ if(stage===1){
+   text.innerText="Accha baba sorry naaa… galti ho gayi meri 😔";
+   sendProjectileKiss();
+   setTimeout(()=>{
+     text.innerText="Ab maan jao na…";
+     stage=2;
+   },1800);
+ }
+ else{
+   celebrate();
+ }
+}
+
+function noClicked(){
+ if(stage===1){
+   celebrate();
+ } else{
+   text.innerText="Please naaa… zyada nakhre mat karo 🥺";
+   sendProjectileKiss();
+ }
+}
+
+function sendProjectileKiss(){
+
+ let kiss=document.createElement("div");
+ kiss.classList.add("kiss");
+ kiss.innerText="😘";
+ scene.appendChild(kiss);
+
+ let startX=scene.offsetWidth*0.80;
+ let endX=scene.offsetWidth*0.10;
+ let startY=160;
+ let peak=60;
+ let duration=1000;
+ let startTime=null;
+
+ function animate(time){
+   if(!startTime) startTime=time;
+   let progress=(time-startTime)/duration;
+   if(progress>1) progress=1;
+
+   let x=startX+(endX-startX)*progress;
+   let y=startY - peak*4*progress*(1-progress);
+
+   kiss.style.left=x+"px";
+   kiss.style.top=y+"px";
+
+   if(Math.random()>0.7){
+     let trail=document.createElement("div");
+     trail.classList.add("trail");
+     trail.innerText="💗";
+     trail.style.left=x+"px";
+     trail.style.top=y+"px";
+     scene.appendChild(trail);
+     setTimeout(()=>trail.remove(),600);
+   }
+
+   if(progress<1){
+     requestAnimationFrame(animate);
+   } else{
+     kiss.remove();
+   }
+ }
+
+ requestAnimationFrame(animate);
+}
+
+function celebrate(){
+
+ text.innerText="Sach me maan gayi? 🥹";
+
+ boy.classList.add("mergeBoy");
+ girl.classList.add("mergeGirl");
+
+ document.querySelector(".buttons").style.display="none";
+
+ for(let i=0;i<40;i++){
+   let h=document.createElement("div");
+   h.classList.add("heart");
+   h.innerText="💖";
+   h.style.left=Math.random()*100+"vw";
+   h.style.bottom="0px";
+   document.body.appendChild(h);
+ }
+
+ setTimeout(()=>{
+   finalText.classList.add("showLove");
+ },2000);
+}
+
+</script>
+
+</body>
+</html>
